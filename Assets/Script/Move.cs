@@ -1,28 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NUnit.Framework;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class Move : MonoBehaviour
 {
     public static Move instance;
 
+
+    public bool Voicing = false;
+
+    public Transform AttackPoint;
     public float forwardSpeed = 8f;
     public float AddSpeed = 0f;
     public float strafeSpeed = 3f;
     public float jumpForce = 5f;
+    public int MaxHp;
     public int Hp;
+    public float MaxStamina = 100;
+    public float Stamina;
+    public Color StaminaRunAble;
+    public Color StaminaRunNotAble;
+    public Image StaminaFill;
+    public Slider StaminaSlider;
+    public Slider HpSlider;
+    public GameObject bulletImage;
+    public GameObject HorizontalLayoutGroup;
+    List<GameObject> bulletIcons = new List<GameObject>();
+    public bool isAlive = true;
 
     private float hoofSoundTimer = 0f;
-    public float hoofInterval = 0.4f; // 소리 간격 (속도에 따라 조정 가능)
-    private bool hoofToggle = false;   // H1 / H2 번갈아가며
-
+    public float hoofInterval = 0.4f;
+    private bool hoofToggle = false;
 
     public GameObject Bullet;
     public Transform BulletPos;
     public Camera Guner;
-    public GunStatus MyGun;
+
+    public GunStatus MyGunSO;  // SO 직접 참조 (읽기 전용)
+
+    // 런타임 상태 복사본
+    private int currentRange;
+    private int maxRange;
+    private int damage;
+    private float attackSpeed;
+
     public bool isAttackDelay = false;
     public bool isReloading = false;
 
@@ -39,68 +65,153 @@ public class Move : MonoBehaviour
     public List<ParticleSystem> GunParticle = new List<ParticleSystem>();
 
     float lastRunEndTime = -1f;
-    float lastJumpTime = -1f;   // 🆕 점프 시간 기록용
-
+    float lastJumpTime = -1f;
+    float zeroStaminaTime = -10f;
+    bool staminaWasZero = false;
+    bool isRunBlocked = false;
+    float runBlockEndTime = -1f;
 
     private void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     private void Start()
     {
-        Gunner.SetInteger("Gun", MyGun.num);
+        if (GameManager.instance != null)
+            MyGunSO = GameManager.instance.CurretnGun;
+
+        Hp = MaxHp;
+        Stamina = MaxStamina;
+        Gunner.SetInteger("Gun", MyGunSO.num);
         rb = GetComponent<Rigidbody>();
         if (rb == null)
             Debug.LogError("Rigidbody 컴포넌트가 필요합니다!");
+
+        bulletIcons.Clear();
+        int childCount = HorizontalLayoutGroup.transform.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            bulletIcons.Add(HorizontalLayoutGroup.transform.GetChild(i).gameObject);
+        }
+
+        // MaxRange 초과 아이콘은 삭제 또는 비활성화 처리
+        if (bulletIcons.Count > MyGunSO.MaxRange)
+        {
+            for (int i = bulletIcons.Count - 1; i >= MyGunSO.MaxRange; i--)
+            {
+                Destroy(bulletIcons[i]);
+                bulletIcons.RemoveAt(i);
+            }
+        }
+
+        // SO 데이터 복사 (런타임 중 변경은 여기서 관리)
+        maxRange = MyGunSO.MaxRange;
+        currentRange = maxRange;
+        damage = MyGunSO.damage;
+        attackSpeed = MyGunSO.AttackSpeed;
+
+        UpdateBulletIcons();
+    }
+
+    void UpdateBulletIcons()
+    {
+        for (int i = 0; i < bulletIcons.Count; i++)
+        {
+            bulletIcons[i].SetActive(i < currentRange);
+        }
     }
 
     void Update()
     {
-        horizontalInput = 0f;
-        if (Input.GetKey(KeyCode.A)) horizontalInput = -1f;
-        if (Input.GetKey(KeyCode.D)) horizontalInput = 1f;
-
-        if (Input.GetKeyDown(KeyCode.Mouse0)) Shut();
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if(isAlive)
         {
-            Run();
-        }
-        else
-        {
-            // ⬇️ 달리기 해제 시점 기록
-            if (run)
-                lastRunEndTime = Time.time;
+            horizontalInput = 0f;
+            if (Input.GetKey(KeyCode.A)) horizontalInput = -1f;
+            if (Input.GetKey(KeyCode.D)) horizontalInput = 1f;
 
-            run = false;
-            AddSpeed = 0f;
-            GunnerCamera.AmplitudeGain = 0.25f;
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0)) Shut();
 
-        MoveMent();
-        HandleHoofSound();
+            bool isShiftHeld = Input.GetKey(KeyCode.LeftShift);
+            bool runKeyHeld = isShiftHeld && !isRunBlocked;
+            bool canRun = runKeyHeld && Stamina > 0f;
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            Jump();
+            if (canRun)
+            {
+                Run();
+
+                Stamina -= 40f * Time.deltaTime;
+                if (Stamina < 0)
+                    Stamina = 0;
+
+                if (Stamina <= 0f && !isRunBlocked)
+                {
+                    isRunBlocked = true;
+                    runBlockEndTime = Time.time + 3f;
+                    zeroStaminaTime = Time.time;
+                    staminaWasZero = true;
+                }
+            }
+            else
+            {
+                if (run)
+                {
+                    lastRunEndTime = Time.time;
+                }
+
+                run = false;
+                AddSpeed = 0f;
+                GunnerCamera.AmplitudeGain = 0.25f;
+
+                if (isRunBlocked && Time.time >= runBlockEndTime)
+                {
+                    isRunBlocked = false;
+                }
+
+                float timeSinceZero = Time.time - zeroStaminaTime;
+
+                if (staminaWasZero && timeSinceZero <= 5f)
+                {
+                    Stamina += 10f * Time.deltaTime;
+                }
+                else
+                {
+                    Stamina += 20f * Time.deltaTime;
+                    staminaWasZero = false;
+                }
+
+                if (Stamina > MaxStamina)
+                    Stamina = MaxStamina;
+            }
+
+            MoveMent();
+            HandleHoofSound();
+            SliderUpdate();
+
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                Jump();
+            }
         }
+       
+    }
+
+    void SliderUpdate()
+    {
+        HpSlider.value = Hp / (float)MaxHp;
+        StaminaSlider.value = Stamina / MaxStamina;
+        StaminaFill.color = isRunBlocked ? StaminaRunNotAble : StaminaRunAble;
     }
 
     void HandleHoofSound()
     {
-        // 걷거나 뛸 때만 재생
-        if (isGrounded && rb.linearVelocity.magnitude > 0.5f)
+        if (isGrounded && rb.linearVelocity.magnitude > 0.5f && isAlive)
         {
             hoofSoundTimer -= Time.deltaTime;
-            if (hoofSoundTimer <= 0f)
+            if (hoofSoundTimer <= 0f )
             {
                 string clipName = hoofToggle ? "H1" : "H2";
                 SfxManager.Instance.Play(clipName);
@@ -111,10 +222,10 @@ public class Move : MonoBehaviour
         }
         else
         {
-            // 공중에 있거나 멈췄을 때 타이머 초기화
             hoofSoundTimer = 0f;
         }
     }
+
 
     void Run()
     {
@@ -123,22 +234,65 @@ public class Move : MonoBehaviour
         GunnerCamera.AmplitudeGain = 1.25f;
     }
 
+    public void Damage(int damage)
+    {
+        if (isAlive)
+        {
+            Hp -= damage;
+            hitVoice();
+            StartCoroutine(GunnerShake(0.1f));
+            SfxManager.Instance.Play("hit", 1f);
+            if (Hp <= 0)
+            {
+                Debug.Log("플레이어가 사망하였습니다!");
+                GameManager.instance.Death();
+                isAlive = false;
+            }
+        }
+    }
+
+    IEnumerator GunnerShake(float time)
+    {
+        GunnerCamera.AmplitudeGain += 1.5f;
+        yield return new WaitForSeconds(time);
+        GunnerCamera.AmplitudeGain -= 1.5f;
+    }
+
+    void hitVoice()
+    {
+        if(!Voicing)
+        {
+            SfxManager.Instance.Play("voice", 1f);
+            Voicing = true;
+            Invoke("voiceFalse", 3.5f);
+        }
+    }
+
+    void voiceFalse()
+    {
+        Voicing = false;
+    }
+
+
+
+
+
     void Shut()
     {
-        if (!isReloading && !isAttackDelay)
+        if (!isReloading && !isAttackDelay && currentRange > 0 && isAlive)
         {
-
             SfxManager.Instance.PlayAt("Rshot", this.transform.position, 1f);
-            MyGun.Range--;
+            currentRange--;
+
+            UpdateBulletIcons();
 
             Gunner.SetTrigger("Fire");
 
-            foreach(ParticleSystem particleSystem in GunParticle)
+            foreach (ParticleSystem particleSystem in GunParticle)
             {
                 particleSystem.Play();
             }
 
-            // 1. 마우스 커서 위치 기준 Ray 쏘기
             Ray ray = Guner.ScreenPointToRay(Input.mousePosition);
             Vector3 targetPoint;
 
@@ -147,11 +301,8 @@ public class Move : MonoBehaviour
             else
                 targetPoint = ray.origin + ray.direction * 40f;
 
-            // 2. 총알 방향 계산
             Vector3 direction = (targetPoint - BulletPos.position).normalized;
 
-            // ⬇️ 퍼짐 계산: run 중이거나, run 직후 0.5초 이내라면 높은 퍼짐
-            // 퍼짐 적용 조건
             bool shouldApplyRunSpread = run || (Time.time - lastRunEndTime <= 0.5f);
             bool shouldApplyJumpSpread = (Time.time - lastJumpTime <= 0.5f);
             bool isUnstable = shouldApplyRunSpread || shouldApplyJumpSpread;
@@ -167,28 +318,20 @@ public class Move : MonoBehaviour
             );
             direction.Normalize();
 
-
-
-
-            // 3. 총알 생성 및 방향 설정
             GameObject bullet = Instantiate(Bullet, BulletPos.position, Quaternion.LookRotation(direction));
             Bullet bulletcs = bullet.GetComponent<Bullet>();
-            bulletcs.damage = MyGun.damage;
+            bulletcs.damage = damage;
 
             Debug.DrawLine(BulletPos.position, targetPoint, Color.red, 2f);
 
-            // 4. 총알 속도 적용
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.useGravity = false;
             bulletRb.linearVelocity = direction * 60f;
 
-
-            if (MyGun.Range >= 1)
-                StartCoroutine(AttackDelay(MyGun.AttackSpeed));
+            if (currentRange >= 1)
+                StartCoroutine(AttackDelay(attackSpeed));
             else
                 StartCoroutine(Reload());
-
-            
         }
     }
 
@@ -196,20 +339,21 @@ public class Move : MonoBehaviour
     {
         Gunner.SetTrigger("Reload");
         isReloading = true;
-        switch (MyGun.num)
+
+        switch (MyGunSO.num)
         {
             case 0:
                 yield return new WaitForSeconds(0.33333f);
                 SfxManager.Instance.PlayAt("Rreload", transform.position, 1f);
                 yield return new WaitForSeconds(3.3333f);
-                MyGun.Range = 6;
                 break;
-
+                // 다른 무기 타입도 여기에 추가 가능
         }
-        isReloading = false;
-        
-    }
 
+        currentRange = maxRange;
+        UpdateBulletIcons();
+        isReloading = false;
+    }
 
     IEnumerator AttackDelay(float time)
     {
@@ -234,8 +378,9 @@ public class Move : MonoBehaviour
         animator.SetTrigger("Jump");
         isGrounded = false;
 
-        lastJumpTime = Time.time;  // 🆕 점프 시간 저장
+        lastJumpTime = Time.time;
     }
+
 
 
     private void OnCollisionEnter(Collision collision)
@@ -245,6 +390,7 @@ public class Move : MonoBehaviour
             ContactPoint contact = collision.contacts[0];
             if (Vector3.Dot(contact.normal, Vector3.up) > 0.5f)
             {
+                SfxManager.Instance.PlayAt("land", this.transform.position, 1f);
                 isGrounded = true;
             }
         }

@@ -9,6 +9,7 @@ public class GunStatus : ScriptableObject
     public GameObject GunModel;
     public int damage;
     public float AttackSpeed;
-    public float Range;
+    public int MaxRange;
+    public int Range;
     public float ReloadTime;
 }

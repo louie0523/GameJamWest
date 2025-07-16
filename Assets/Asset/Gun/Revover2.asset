@@ -17,5 +17,6 @@ MonoBehaviour:
   GunModel: {fileID: 5884405469530735240, guid: 3d6c7430bd21a564489df266ea8864e1, type: 3}
   damage: 5
   AttackSpeed: 1
+  MaxRange: 6
   Range: 6
   ReloadTime: 3.6

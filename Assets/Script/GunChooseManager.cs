@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.Splines;
+using UnityEngine.SceneManagement;
 
 
 
@@ -61,6 +62,17 @@ public class GunChooseManager : MonoBehaviour
             CurrentNum++;
             GunLotate();
         }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            GoGame();
+        }
+    }
+
+    public void GoGame()
+    {
+        GameManager.instance.CurretnGun = GunStatusList[CurrentNum];
+        SceneManager.LoadScene(2);
     }
 
     public void GunLotate()
