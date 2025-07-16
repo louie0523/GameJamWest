@@ -1,21 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Splines;
+
+
+
 
 public class GunChooseManager : MonoBehaviour
 {
     public static GunChooseManager instance;
 
-    public class GunStatus
-    {
-        public string GunName;
-        public int num = 0;
-        public GameObject GunModel;
-        public int damage;
-        public float AttackSpeed;
-        public float Range;
-        public float ReloadTime;
-    }
+
 
     public List<GunStatus> GunStatusList = new List<GunStatus>();
     public int CurrentNum = 0;
@@ -37,6 +32,11 @@ public class GunChooseManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GunLotate();
+    }
+
     private void Update()
     {
         // 현재 선택된 총기 모델 회전
@@ -47,6 +47,19 @@ public class GunChooseManager : MonoBehaviour
             {
                 currentGun.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
             }
+        }
+
+
+        if(Input.GetKeyDown(KeyCode.A) && CurrentNum >= 1)
+        {
+            CurrentNum--;
+            GunLotate();
+        }
+
+        if(Input.GetKeyDown(KeyCode.D) && CurrentNum < GunStatusList.Count)
+        {
+            CurrentNum++;
+            GunLotate();
         }
     }
 
@@ -61,6 +74,8 @@ public class GunChooseManager : MonoBehaviour
         }
 
         GunName.text = GunStatusList[CurrentNum].GunName;
-        GunStatusText.text = $"공격력 : {GunStatusList[CurrentNum].damage} 공격 속도 : {GunStatusList[CurrentNum].AttackSpeed}초 탄약 : {GunStatusList[CurrentNum].Range}발 장전 시간 : {GunStatusList[CurrentNum].ReloadTime}초";
+        GunStatusText.text = $"<sprite=0> 공격력 : {GunStatusList[CurrentNum].damage} | <sprite=1> 공격 속도 : {GunStatusList[CurrentNum].AttackSpeed}초 | <sprite=2> 탄약 : {GunStatusList[CurrentNum].Range}발 | <sprite=3> 장전 시간 : {GunStatusList[CurrentNum].ReloadTime}초";
+
+
     }
 }
