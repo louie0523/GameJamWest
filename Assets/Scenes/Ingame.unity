@@ -2196,7 +2196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3506738454604239536, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 960.53
+      value: 966.25
       objectReference: {fileID: 0}
     - target: {fileID: 3506738454604239536, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2892,7 +2892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 10.5
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -25369,7 +25369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3506738454604239536, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 961.2
+      value: 966.92
       objectReference: {fileID: 0}
     - target: {fileID: 3506738454604239536, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26077,7 +26077,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 10.5
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -26988,6 +26988,7 @@ MonoBehaviour:
   Inspecter: "\uB2F9\uC2E0\uC740 \uC6A9\uB9F9\uD558\uAC8C \uB3D9\uB8CC\uB4E4\uC758
     \uB3C8\uC744 \uD6D4\uCCD0 \uB2EC\uC544\uB0AC\uC9C0\uB9CC, \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4."
   Deathing: 0
+  Tutorial: {fileID: 0}
   CurretnGun: {fileID: 11400000, guid: 66c8964ffb095f3409ec6fd5756382d1, type: 2}
 --- !u!1 &1476140354
 GameObject:

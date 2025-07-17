@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public string Inspecter;
     public bool Deathing = false;
 
+    public GameObject Tutorial;
+
     public GunStatus CurretnGun;
 
     private void Awake()
@@ -69,5 +71,20 @@ public class GameManager : MonoBehaviour
             textComponent.maxVisibleCharacters = i;
             yield return new WaitForSeconds(0.05f);  // 글자 나오는 속도 조절 가능
         }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void OpenTutorial()
+    {
+        Tutorial.SetActive(true);
+    }
+
+    public void CloseTutorial()
+    {
+        Tutorial.SetActive(false);
     }
 }

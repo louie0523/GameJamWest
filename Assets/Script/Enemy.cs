@@ -69,6 +69,8 @@ public class Enemy : MonoBehaviour
     {
         if (!isAlive || Move.instance == null) return;
 
+        agent.speed = Speed;
+
         if (enemyType == EnemyType.Move)
         {
             agent.speed = Speed - downSpeed;

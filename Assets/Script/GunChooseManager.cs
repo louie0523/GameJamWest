@@ -53,12 +53,14 @@ public class GunChooseManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.A) && CurrentNum >= 1)
         {
+            SfxManager.Instance.Play("Asfx");
             CurrentNum--;
             GunLotate();
         }
 
-        if(Input.GetKeyDown(KeyCode.D) && CurrentNum < GunStatusList.Count)
+        if(Input.GetKeyDown(KeyCode.D) && CurrentNum < GunStatusList.Count - 1)
         {
+            SfxManager.Instance.Play("Dsfx");
             CurrentNum++;
             GunLotate();
         }
