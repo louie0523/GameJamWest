@@ -20,3 +20,4 @@ MonoBehaviour:
   MaxRange: 9
   Range: 9
   ReloadTime: 8
+  ShotRange: 100

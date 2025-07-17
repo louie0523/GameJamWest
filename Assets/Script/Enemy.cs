@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
-public enum EnemyType { Move, Sniper }
+public enum EnemyType { Move, Sniper}
 
 public class Enemy : MonoBehaviour
 {
     public EnemyType enemyType;
-
+    
     public bool AttackUse = true;
     public float Speed;
     public float downSpeed;
@@ -46,10 +47,14 @@ public class Enemy : MonoBehaviour
         originalShootInterval = shootInterval;
         if (enemyType == EnemyType.Move)
         {
-            foot = transform.GetChild(1).transform;
             agent = GetComponent<NavMeshAgent>();
-            rb = GetComponent<Rigidbody>();
             agent.speed = Speed;
+
+            if (Speed <= 0)
+                return;
+            
+            foot = transform.GetChild(1).transform;
+            rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
         }
 
@@ -67,18 +72,26 @@ public class Enemy : MonoBehaviour
         if (enemyType == EnemyType.Move)
         {
             agent.speed = Speed - downSpeed;
+
+
+            if(Speed > 0)
             FenceCheck();
+
             if (!isJumpingOverFence)
             {
                 agent.SetDestination(Move.instance.transform.position);
             }
         }
 
-        shootTimer += Time.deltaTime;
-        if (shootTimer >= shootInterval && AttackUse)
+        // 스피드가 0이 아닐 때만 일반 발사 타이머 작동
+        if (Speed > 0)
         {
-            shootTimer = 0f;
-            StartCoroutine(DelayedFire());
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootInterval && AttackUse)
+            {
+                shootTimer = 0f;
+                StartCoroutine(DelayedFire());
+            }
         }
 
         burstCooldownTimer += Time.deltaTime;
@@ -89,12 +102,12 @@ public class Enemy : MonoBehaviour
             StartCoroutine(CloseRangeBurst());
         }
 
-        if (isTrackingLine)
+        if (isTrackingLine && Speed > 0)
         {
             UpdateBulletTrajectoryLine();
         }
 
-        if(GameManager.instance.Deathing)
+        if (GameManager.instance.Deathing)
         {
             Destroy(gameObject);
         }
@@ -110,6 +123,9 @@ public class Enemy : MonoBehaviour
             if (Move.instance == null) yield break;
             lockedPlayerX = Move.instance.transform.position.x;
             ShootActualBullet(damage - 2); // 대미지 2 감소
+            if (Speed <= 0)
+                animator.SetTrigger("Fire");
+
             yield return new WaitForSeconds(0.15f);
         }
     }
@@ -249,6 +265,12 @@ public class Enemy : MonoBehaviour
             }
 
             shootInterval = originalShootInterval;
+            yield break;
+        }
+
+        // 스피드가 0이면 궤도 설정과 발사를 하지 않음
+        if (Speed <= 0)
+        {
             yield break;
         }
 

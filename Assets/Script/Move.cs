@@ -4,6 +4,7 @@ using DG.Tweening;
 using NUnit.Framework;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public class Move : MonoBehaviour
 {
     public static Move instance;
 
+
+    public Transform[] AttackPoints;
+    public ParticleSystem[] particles;
+    public GameObject[] Gurns;
 
     public bool Voicing = false;
 
@@ -87,6 +92,19 @@ public class Move : MonoBehaviour
         Hp = MaxHp;
         Stamina = MaxStamina;
         Gunner.SetInteger("Gun", MyGunSO.num);
+        for(int i =0; i < Gurns.Length; i++)
+        {
+            if(i == MyGunSO.num)
+            {
+                Gurns[i].SetActive(true);
+                GunParticle.Clear();
+                GunParticle.Add(particles[i]);
+                AttackPoint = AttackPoints[i];
+            } else
+            {
+                Gurns[i].SetActive(false);
+            }
+        }
         rb = GetComponent<Rigidbody>();
         if (rb == null)
             Debug.LogError("Rigidbody 컴포넌트가 필요합니다!");
@@ -281,7 +299,16 @@ public class Move : MonoBehaviour
     {
         if (!isReloading && !isAttackDelay && currentRange > 0 && isAlive)
         {
-            SfxManager.Instance.PlayAt("Rshot", this.transform.position, 1f);
+            switch(MyGunSO.num )
+            {
+                case 0:
+                    SfxManager.Instance.PlayAt("Rshot", this.transform.position, 1f);
+                    break;
+                case 1:
+                    SfxManager.Instance.PlayAt("mauser", this.transform.position, 1f);
+                    break;
+            }
+           
             currentRange--;
 
             UpdateBulletIcons();
@@ -296,7 +323,7 @@ public class Move : MonoBehaviour
             Ray ray = Guner.ScreenPointToRay(Input.mousePosition);
             Vector3 targetPoint;
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            if (Physics.Raycast(ray, out RaycastHit hit, MyGunSO.MaxRange))
                 targetPoint = hit.point;
             else
                 targetPoint = ray.origin + ray.direction * 40f;
@@ -344,10 +371,13 @@ public class Move : MonoBehaviour
         {
             case 0:
                 yield return new WaitForSeconds(0.33333f);
-                SfxManager.Instance.PlayAt("Rreload", transform.position, 1f);
+                SfxManager.Instance.Play("Rreload", 1f);
                 yield return new WaitForSeconds(3.3333f);
                 break;
-                // 다른 무기 타입도 여기에 추가 가능
+            case 1:
+                SfxManager.Instance.Play("Mreload", 1f);
+                yield return new WaitForSeconds(8.25f);
+                break;
         }
 
         currentRange = maxRange;

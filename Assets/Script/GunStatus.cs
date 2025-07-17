@@ -12,4 +12,5 @@ public class GunStatus : ScriptableObject
     public int MaxRange;
     public int Range;
     public float ReloadTime;
+    public float ShotRange;
 }

@@ -15,8 +15,9 @@ MonoBehaviour:
   GunName: "\uC0F7 - \uAC74"
   num: 2
   GunModel: {fileID: 0}
-  damage: 20
+  damage: 30
   AttackSpeed: 0.5
   MaxRange: 2
   Range: 2
   ReloadTime: 15
+  ShotRange: 20
