@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     public int Hp = 10;
     public bool isAlive = true;
 
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Rigidbody rb;
 
     public int damage = 3;
@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
     {
         if (!isAlive || Move.instance == null) return;
 
-        agent.speed = Speed;
+  
 
         if (enemyType == EnemyType.Move)
         {

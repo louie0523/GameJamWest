@@ -2633,58 +2633,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367189994}
   m_CullTransparentMesh: 1
---- !u!1 &367477401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 367477402}
-  - component: {fileID: 367477403}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &367477402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367477401}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &367477403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367477401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfda0ed99e6359d44bef6192e9283994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DeathCamera: {fileID: 0}
-  DeathTitle: {fileID: 0}
-  DeathInspecterText: {fileID: 0}
-  Title: 
-  Inspecter: 
-  Deathing: 0
-  Tutorial: {fileID: 1753332837}
-  CurretnGun: {fileID: 0}
 --- !u!1 &368323180
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,7 +4059,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 367477403}
+      - m_Target: {fileID: 1778317556}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: LoadSence
         m_Mode: 3
@@ -8782,7 +8730,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 367477403}
+      - m_Target: {fileID: 1778317556}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: OpenTutorial
         m_Mode: 1
@@ -14638,7 +14586,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308384781}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &1308877780
 GameObject:
   m_ObjectHideFlags: 0
@@ -16177,7 +16125,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 367477403}
+      - m_Target: {fileID: 1778317556}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
@@ -16568,7 +16516,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 367477403}
+      - m_Target: {fileID: 1778317556}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: CloseTutorial
         m_Mode: 1
@@ -19699,6 +19647,90 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4639870034382688, guid: 4543ab5e3d405ec40a8d4e9aa5165030, type: 3}
   m_PrefabInstance: {fileID: 1768910765}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1778317554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1778317557}
+  - component: {fileID: 1778317556}
+  - component: {fileID: 1778317555}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1778317555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778317554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 8a04eb9a6ece3e946a438717a2f7c9f0, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1778317556}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LoadSence
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1778317556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778317554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfda0ed99e6359d44bef6192e9283994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeathCamera: {fileID: 0}
+  DeathTitle: {fileID: 0}
+  DeathInspecterText: {fileID: 0}
+  Title: Death
+  Inspecter: "\uB2F9\uC2E0\uB4E4\uC740 \uB3C4\uB9DD\uC744 \uC2DC\uB3C4\uD558\uC600\uC9C0\uB9CC,
+    \uACB0\uAD6D \uC11C\uBD80\uC758 \uAE38\uBC14\uB2E5\uC5D0 \uC4F0\uB7EC\uC84C\uC2B5\uB2C8\uB2E4."
+  Deathing: 0
+  Tutorial: {fileID: 0}
+  CurretnGun: {fileID: 11400000, guid: 66c8964ffb095f3409ec6fd5756382d1, type: 2}
+--- !u!4 &1778317557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778317554}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1781997356
 GameObject:
   m_ObjectHideFlags: 0
@@ -22416,4 +22448,4 @@ SceneRoots:
   - {fileID: 720802842}
   - {fileID: 823113196}
   - {fileID: 1034658180}
-  - {fileID: 367477402}
+  - {fileID: 1778317557}

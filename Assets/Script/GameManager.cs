@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     public void Death()
     {
         Deathing = true;
+        Bgm.instance.audioSource.Stop();
         SfxManager.Instance.Play("Death", 1);
         DeathCamera.SetActive(true);
 

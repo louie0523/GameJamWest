@@ -39,8 +39,9 @@ public class SniperAttackTriiger : MonoBehaviour
     IEnumerator speedUp()
     {
         Enemy enemy = Mover.GetComponent<Enemy>();
-        enemy.Speed += 30f;
-        yield return new WaitForSeconds(6f);
-        enemy.Speed -= 30f;
+        enemy.Speed += 10f;
+        yield return new WaitForSeconds(3f);
+        enemy.Speed -= 10f;
+
     }
 }

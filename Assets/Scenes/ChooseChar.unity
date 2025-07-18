@@ -882,6 +882,90 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42627833}
   m_Mesh: {fileID: 5244915625381210605, guid: 0b9fa9fdbeec75d43962c29f7514b400, type: 3}
+--- !u!1 &48099148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48099151}
+  - component: {fileID: 48099150}
+  - component: {fileID: 48099149}
+  m_Layer: 0
+  m_Name: GameManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &48099149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48099148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 8a04eb9a6ece3e946a438717a2f7c9f0, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 48099150}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LoadSence
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &48099150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48099148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfda0ed99e6359d44bef6192e9283994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeathCamera: {fileID: 0}
+  DeathTitle: {fileID: 0}
+  DeathInspecterText: {fileID: 0}
+  Title: Death
+  Inspecter: "\uB2F9\uC2E0\uB4E4\uC740 \uB3C4\uB9DD\uC744 \uC2DC\uB3C4\uD558\uC600\uC9C0\uB9CC,
+    \uACB0\uAD6D \uC11C\uBD80\uC758 \uAE38\uBC14\uB2E5\uC5D0 \uC4F0\uB7EC\uC84C\uC2B5\uB2C8\uB2E4."
+  Deathing: 0
+  Tutorial: {fileID: 0}
+  CurretnGun: {fileID: 0}
+--- !u!4 &48099151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48099148}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &48352973
 GameObject:
   m_ObjectHideFlags: 0
@@ -11263,7 +11347,6 @@ MonoBehaviour:
   GunStatusList:
   - {fileID: 11400000, guid: ba17ebdf29878954e8bc5ffd02931870, type: 2}
   - {fileID: 11400000, guid: 66c8964ffb095f3409ec6fd5756382d1, type: 2}
-  - {fileID: 11400000, guid: 95cf265b4e1d7e643b4d2064ad2e604c, type: 2}
   CurrentNum: 0
   GunModelParent: {fileID: 1098976336}
   GunName: {fileID: 1685647919}
@@ -15297,3 +15380,4 @@ SceneRoots:
   - {fileID: 756670867}
   - {fileID: 843601144}
   - {fileID: 234528627}
+  - {fileID: 48099151}
