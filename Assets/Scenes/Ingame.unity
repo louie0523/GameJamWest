@@ -10311,8 +10311,8 @@ MonoBehaviour:
   AddSpeed: 3.5
   strafeSpeed: 3
   jumpForce: 7
-  MaxHp: 50
-  Hp: 50
+  MaxHp: 75
+  Hp: 75
   MaxStamina: 100
   Stamina: 100
   StaminaRunAble: {r: 0.9764706, g: 1, b: 0, a: 1}
@@ -19641,7 +19641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 11.5
+      value: 11.1
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -57421,7 +57421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 15.8
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -58704,13 +58704,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda0ed99e6359d44bef6192e9283994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeathCamera: {fileID: 67814570}
+  DeathCamera: {fileID: 1983210745}
   DeathTitle: {fileID: 804142840}
   DeathInspecterText: {fileID: 1622700016}
   Title: Death
   Inspecter: "\uB2F9\uC2E0\uB4E4\uC740 \uB3C4\uB9DD\uC744 \uC2DC\uB3C4\uD558\uC600\uC9C0\uB9CC,
     \uACB0\uAD6D \uC11C\uBD80\uC758 \uAE38\uBC14\uB2E5\uC5D0 \uC4F0\uB7EC\uC84C\uC2B5\uB2C8\uB2E4."
   Deathing: 0
+  isDestory: 0
   Tutorial: {fileID: 0}
   CurretnGun: {fileID: 11400000, guid: 66c8964ffb095f3409ec6fd5756382d1, type: 2}
 --- !u!114 &1473602036
@@ -62105,6 +62106,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 36434091}
+        m_TargetAssemblyTypeName: Bgm, Assembly-CSharp
+        m_MethodName: SetStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1744106254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62118,7 +62131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7830189, g: 0.52809393, b: 0.04801533, a: 1}
+  m_Color: {r: 0.26415092, g: 0.17282215, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -67728,7 +67741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 11.5
+      value: 11.1
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -74714,7 +74727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 11.5
+      value: 11.1
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet
@@ -77303,7 +77316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1983210746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77353,9 +77366,9 @@ Canvas:
   m_GameObject: {fileID: 1983210745}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 67814573}
-  m_PlaneDistance: 1
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -85363,7 +85376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: Speed
-      value: 11.5
+      value: 11.1
       objectReference: {fileID: 0}
     - target: {fileID: 8140144702018625542, guid: 1efde0e381316724a9f0229febbfa01a, type: 3}
       propertyPath: bullet

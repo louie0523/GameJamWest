@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public string Inspecter;
     public bool Deathing = false;
 
+    public bool isDestory = true;
+
     public GameObject Tutorial;
 
     public GunStatus CurretnGun;
@@ -29,13 +31,22 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            if(isDestory) 
+             Destroy(gameObject);
+            else
+            {
+                 CurretnGun = instance.CurretnGun;
+                Destroy(instance.gameObject);
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 
     public void LoadSence(int num)
     {
         SceneManager.LoadScene(num);
+        Debug.Log(num + "¹ø ¾À ·Îµå");
     }
 
     public void Death()

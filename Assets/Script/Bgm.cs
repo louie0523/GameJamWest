@@ -30,6 +30,16 @@ public class Bgm : MonoBehaviour
         }
     }
 
+    public void SetStart()
+    {
+        if (bgms.Count > 0 && audioSource != null)
+        {
+            audioSource.clip = bgms[0];
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+    }
+
 
     public void PlayBgm(int index)
     {

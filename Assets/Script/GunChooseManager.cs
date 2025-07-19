@@ -19,6 +19,8 @@ public class GunChooseManager : MonoBehaviour
     public TextMeshProUGUI GunName;
     public TextMeshProUGUI GunStatusText;
 
+    
+
     public float rotationSpeed = 30f; // 회전 속도 (도/초)
 
     private void Awake()
